@@ -1,0 +1,43 @@
+﻿Compilación iniciada a las 18/05/2016 14:48:50.
+     1>Proyecto "C:\dev\PlantillaOpenGL01\PlantillaOpenGL01\PlantillaOpenGL01.vcxproj" en el nodo 2 (Build destinos).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IC:\dev\opengl\freeglut\include /I"C:\dev\opengl\glew-1.7.0\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(64): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(64): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(65): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(65): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(67): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(67): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(68): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(68): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(70): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(70): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(71): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(71): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(73): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(73): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(74): warning C4244: 'argumento' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(74): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(87): warning C4101: 'aspectratio' : variable local sin referencia
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(108): warning C4244: '=' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(109): warning C4244: '=' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(110): warning C4244: '=' : conversión de 'int' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(184): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(185): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(193): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(194): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(195): warning C4305: 'inicializando' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(210): warning C4305: 'argumento' : truncamiento de 'double' a 'GLfloat'
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(213): warning C4244: '=' : conversión de 'double' a 'int'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(215): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(220): warning C4244: '=' : conversión de 'double' a 'int'; posible pérdida de datos
+     1>c:\dev\plantillaopengl01\plantillaopengl01\main.cpp(222): warning C4244: '=' : conversión de 'double' a 'GLfloat'; posible pérdida de datos
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\dev\PlantillaOpenGL01\Debug\PlantillaOpenGL01.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86" /LIBPATH:C:\dev\opengl\freeglut\lib /LIBPATH:"C:\dev\opengl\glew-1.7.0\lib" glew32.lib freeglut.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\dev\PlantillaOpenGL01\Debug\PlantillaOpenGL01.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\dev\PlantillaOpenGL01\Debug\PlantillaOpenGL01.lib" /MACHINE:X86 Debug\main.obj
+         PlantillaOpenGL01.vcxproj -> C:\dev\PlantillaOpenGL01\Debug\PlantillaOpenGL01.exe
+     1>Compilación del proyecto terminada "C:\dev\PlantillaOpenGL01\PlantillaOpenGL01\PlantillaOpenGL01.vcxproj" (Build destinos).
+
+Compilación correcta.
+
+Tiempo transcurrido 00:00:01.54
