@@ -27,7 +27,6 @@ typedef struct{
 	GLfloat y;
 }Vector2D;
 
-
 // Valores de entrada para la ola 1
 float L1	= 8.0f;				//Distancia de la ola 1
 float A1	= 0.4f;				//Altura de la ola 1
@@ -233,6 +232,7 @@ void Keyboard(unsigned char key, int x, int y){
 		exit (0);
 		break;	
   }
+  glutPostRedisplay();
 }
 
 void animacion(int value) {
@@ -264,25 +264,28 @@ void animacion(int value) {
 }
 
 void render(){
+	
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	GLfloat zExtent, xExtent, xLocal, zLocal;
-    int loopX, loopZ;
+	int loopX, loopZ;
 
 	glLoadIdentity ();                       
 	gluLookAt (25.0, 12.0, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-	
-	// Luz y material
+
+	// Luz y material	
 	GLfloat mat_diffuse[] = { 0.6, 0.6, 0.9, 1.0 };
 	GLfloat mat_specular[] = { 0.8, 0.8, 1.0, 1.0 };
 	GLfloat mat_shininess[] = { 60.0 };
-	
+
+
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
 	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 	
-    GLfloat light_ambient[] = { 0.0, 0.0, 0.2, 1.0 };
+
+	GLfloat light_ambient[] = { 0.0, 0.0, 0.2, 1.0 };
 	GLfloat light_diffuse[] = { 0.8, 0.8, 0.8, 1.0 };
 	GLfloat light_specular[] = { 0.6, 0.6, 0.6, 1.0 };
 	GLfloat light_position[] = { -10.0, 5.0, 0.0, 1.0 };
@@ -293,46 +296,47 @@ void render(){
 	glLightfv(GL_LIGHT0, GL_POSITION, light_position);   
 
 	// Render Grid 
-/*	glDisable(GL_LIGHTING);
-	glLineWidth(1.0);
-	glPushMatrix();
-	glRotatef(90,1.0,0.0,0.0);
-    glColor3f( 0.0, 0.7, 0.7 );
-    glBegin( GL_LINES );
-    zExtent = DEF_floorGridScale * DEF_floorGridZSteps;
-    for(loopX = -DEF_floorGridXSteps; loopX <= DEF_floorGridXSteps; loopX++ )
-	{
-	xLocal = DEF_floorGridScale * loopX;
-	glVertex3f( xLocal, -zExtent, 0.0 );
-	glVertex3f( xLocal, zExtent,  0.0 );
+	/*	glDisable(GL_LIGHTING);
+		glLineWidth(1.0);
+		glPushMatrix();
+		glRotatef(90,1.0,0.0,0.0);
+		glColor3f( 0.0, 0.7, 0.7 );
+		glBegin( GL_LINES );
+		zExtent = DEF_floorGridScale * DEF_floorGridZSteps;
+		for(loopX = -DEF_floorGridXSteps; loopX <= DEF_floorGridXSteps; loopX++ )
+		{
+		xLocal = DEF_floorGridScale * loopX;
+		glVertex3f( xLocal, -zExtent, 0.0 );
+		glVertex3f( xLocal, zExtent,  0.0 );
+		}
+		xExtent = DEF_floorGridScale * DEF_floorGridXSteps;
+		for(loopZ = -DEF_floorGridZSteps; loopZ <= DEF_floorGridZSteps; loopZ++ )
+		{
+		zLocal = DEF_floorGridScale * loopZ;
+		glVertex3f( -xExtent, zLocal, 0.0 );
+		glVertex3f(  xExtent, zLocal, 0.0 );
 	}
-    xExtent = DEF_floorGridScale * DEF_floorGridXSteps;
-    for(loopZ = -DEF_floorGridZSteps; loopZ <= DEF_floorGridZSteps; loopZ++ )
-	{
-	zLocal = DEF_floorGridScale * loopZ;
-	glVertex3f( -xExtent, zLocal, 0.0 );
-	glVertex3f(  xExtent, zLocal, 0.0 );
-	}
-    glEnd();
+	glEnd();
 	ejesCoordenada();
-    glPopMatrix();
+	glPopMatrix();
 	glEnable(GL_LIGHTING);*/
 	// Fin Grid
-	
+
 	//Suaviza las lineas
 	glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable( GL_LINE_SMOOTH );	
-	
+
 	glPushMatrix();
 		gluBeginSurface(theNurb);
+	   
 		gluNurbsSurface(theNurb, 
-			25,knotsSurf,25,knotsSurf,
-					   21 * 3, 3, &ctlpoints[0][0][0], 
-					   4, 4, GL_MAP2_VERTEX_3);
+						25,knotsSurf,25,knotsSurf,
+						21 * 3, 3, &ctlpoints[0][0][0], 
+						4, 4, GL_MAP2_VERTEX_3);
+
 		gluEndSurface(theNurb);
 	glPopMatrix();
-	
-	
+
 	/* Muestra los puntos de control */
 	
 	/*	int i,j;
@@ -352,7 +356,7 @@ void render(){
 	glDisable(GL_BLEND);
 	glDisable(GL_LINE_SMOOTH);
 
-	//Pausamos la animación de las olas.
+	//Pausamos la animacion de las olas.
 	if (!pausar) {
 		glutTimerFunc(1000,animacion,1);
 	}
@@ -363,11 +367,8 @@ void render(){
 int main (int argc, char** argv) {
 
 	glutInit(&argc, argv);
-
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-
 	glutInitWindowSize(960,540);
-
 	glutCreateWindow("Nurbs Proyecto - Ola");
 
 	init ();
@@ -375,7 +376,7 @@ int main (int argc, char** argv) {
 	glutReshapeFunc(changeViewport);
 	glutDisplayFunc(render);
 	glutKeyboardFunc(Keyboard);
-
+	
 	GLenum err = glewInit();
 	if (GLEW_OK != err) {
 		fprintf(stderr, "GLEW error");
