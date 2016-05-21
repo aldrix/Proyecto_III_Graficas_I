@@ -13,34 +13,28 @@ using namespace std;
 
 GLUnurbsObj *theNurb;
 
-GLfloat knots01[8] = {
-	0.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0
-};
-
-GLfloat knots02[9] = {
-	0.0,0.0,0.0,0.0,0.5,1.0,1.0,1.0,1.0
-};
-
-GLfloat ctrlpointsCurveNurbs01[4][3] = {
-	{-10.0,0.0,0.0}, {-5.0,0.0,8.0}, {5.0,0.0,8.0}, {10.0,0.0,0.0}
-};
-
-GLfloat ctrlpointsCurveNurbs02[5][3] = {
-	{-2.0,2.0,0.0}, {-1.0,2.0,2.0}, {1.0,2.0,-2.0}, {2.0,2.0,0.0}, {2.0,2.0,1.0}
-};
-
-GLfloat ctrPoints01[4][3] = {
-	{-4.0,0.0,0.0}, {-2.0,5.0,0.0}, {2.0,5.0,0.0}, {4.0,0.0,0.0}
-};
-
 GLfloat ctlpoints[21][21][3] = {{{0}}};
 
-GLfloat knotsSurf[8] = {
-	0.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0
+GLfloat knotsSurf[25] = {
+	0.0,1.0,2.0,3.0,4.0,
+	5.0,6.0,7.0,8.0,9.0,
+	10.0,11.0,12.0,13.0,14.0,
+	15.0,16.0,17.0,18.0,19.0,
+	20.0,21.0,22.0,23.0,24.0
 };
 
-GLUnurbsObj *theNurb01, *theNurb02, *theNurbSurf;
-float t;
+typedef struct{
+	GLfloat x;
+	GLfloat y;
+}Vector2D;
+
+
+float L    = 0.0f;				//Distancia entre cada ola
+float A    = 0.0f;				//Altura de la ola
+float S	   = 0.0f;				//Velocidad de la ola
+Vector2D D = {0};				//Vector que determina la dirección de la ola
+float t = 0;
+
 
 void ejesCoordenada() {
 	
@@ -99,34 +93,23 @@ void changeViewport(int w, int h) {
 }
 
 void init_surface() {
-	int x = -10;
-	int y = 10;
-	int z = 0;
+	int x = 10;
+	int y = 0;
+	int z = 10;
 
 	for (int f = 0; f < 21; f++) {
 		for (int c = 0; c < 21; c++) {
-			ctlpoints[f][c][0] = x + c;
-			ctlpoints[f][c][1] = z;
-			ctlpoints[f][c][2] = y; 
+			ctlpoints[f][c][0] = x - c;
+			ctlpoints[f][c][1] = y;
+			ctlpoints[f][c][2] = z; 
 		}
-		y -= 1;
-	}	
+		z -= 1;
+	}		
 }
 
-/*void changePoints (int value){
-	t+=0.1;
-
-	ctlpointsNurbsSurf[1][1][1] = 3*sin(t);
-	ctlpointsNurbsSurf[1][2][1] = -3*sin(t);
-	ctlpointsNurbsSurf[2][1][1] = -3*sin(t);
-	ctlpointsNurbsSurf[2][2][1] = 3*sin(t);
-
-	//glutTimerFunc(10,changePoints,1);
-	glutPostRedisplay();
-
-}*/
-
 void init(){
+
+
 
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
@@ -134,39 +117,51 @@ void init(){
    glEnable(GL_AUTO_NORMAL);
    glEnable(GL_NORMALIZE);
 
-	theNurb01 = gluNewNurbsRenderer();
-	theNurb02 = gluNewNurbsRenderer();
-
-	gluNurbsProperty(theNurb01, GLU_SAMPLING_TOLERANCE, 25.0);
-	gluNurbsProperty(theNurb02, GLU_SAMPLING_TOLERANCE, 25.0);
-
-	theNurbSurf = gluNewNurbsRenderer();
-	gluNurbsProperty(theNurbSurf, GLU_SAMPLING_TOLERANCE, 25.0);
-	gluNurbsProperty(theNurbSurf, GLU_DISPLAY_MODE, GLU_FILL);
-
    init_surface();
 
    theNurb = gluNewNurbsRenderer();
    gluNurbsProperty(theNurb, GLU_SAMPLING_TOLERANCE, 15.0);
    gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
 
-	//glutTimerFunc(10,changePoints,1);
-	t = 0.0;	
+	
 
 }
 
+void Keyboard(unsigned char key, int x, int y){
+  switch (key){
+	case 'r':
+		//glDisable(GLenum);
+	case 'p':
+		//glEnable(GLenum);
+	case 'a':
+		L = L - 0.1;
+	case 'z':
+		L = L + 0.1;
+	case 's':
+		A = A - 0.1;
+	case 'x':
+		A = A + 0.1;
+	case 'd':
+		S = S - 0.1;
+	case 'c':
+		S = S + 0.1;
+	case 'f':
+		D.x = D.x + 0.1;
+	case 'v':
+		D.x = D.x - 0.1;
+	case 'g':
+		D.y = D.y + 0.1;
+	case 'b':
+		D.y = D.y - 0.1;
 
-
-void Keyboard(unsigned char key, int x, int y)
-{
-  switch (key)
-  {
 	case 27:             
 		exit (0);
 		break;
 	
   }
 }
+
+
 
 void render(){
 	glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -203,7 +198,7 @@ void render(){
 
 	
 	// Render Grid 
-	glDisable(GL_LIGHTING);
+	/*glDisable(GL_LIGHTING);
 	glLineWidth(1.0);
 	glPushMatrix();
 	glRotatef(90,1.0,0.0,0.0);
@@ -228,7 +223,7 @@ void render(){
     glPopMatrix();
 	glEnable(GL_LIGHTING);
 	// Fin Grid
-	
+*/	
 
 
 	//Suaviza las lineas
@@ -240,16 +235,10 @@ void render(){
 
 	gluBeginSurface(theNurb);
     
-	/*gluNurbsSurface(theNurb, 
-                   25, variableKnots, 25, variableKnots,
-                   21 * 3, 3, variablePuntosControl, 
-                   4, 4, GL_MAP2_VERTEX_3);*/
-	/*
-
-		No cambien los numeros de la funcion, solo deben de poner los nombres de las variables correspondiente.
-		
-	*/
-
+	gluNurbsSurface(theNurb, 
+		25,knotsSurf,25,knotsSurf,
+				   21 * 3, 3, &ctlpoints[0][0][0], 
+                   4, 4, GL_MAP2_VERTEX_3);
 
 	gluEndSurface(theNurb);
 	
@@ -258,19 +247,19 @@ void render(){
 	
 	/* Muestra los puntos de control */
 	
-		int i,j;
+	/*	int i,j;
 		glPointSize(5.0);
 		glDisable(GL_LIGHTING);
 		glColor3f(1.0, 1.0, 0.0);
 		glBegin(GL_POINTS);
 		for (i = 0; i <21; i++) {
 			for (j = 0; j < 21; j++) {
-	            glVertex3f(ctlpoints[i][j][0], ctlpoints[i][j][1], ctlpoints[i][j][2]);
+	            glVertex3f(ctlpoints[i][j][0], 	ctlpoints[i][j][1], ctlpoints[i][j][2]);
 			}
 		}
 		glEnd();
 		glEnable(GL_LIGHTING);
-	
+	*/
 		
 
 	glDisable(GL_BLEND);
@@ -280,7 +269,24 @@ void render(){
 }
 
 void animacion(int value) {
-	
+	t += 0.1;
+	for (int f = 0; f < 11; f++) {
+		for (int c = 0; c < 21; c++) {
+			ctlpoints[f][c][1] = -3*sin(t);
+			ctlpoints[f][c][1] = 3*sin(t);
+			ctlpoints[f][c][1] = -3*sin(t); 
+		}
+	}		
+
+/*	for (int f = 11; f < 21; f++) {
+		for (int c = 0; c < 21; c++) {
+			ctlpoints[f][c][1] = -2*sin(t);
+			ctlpoints[f][c][1] = 2*sin(t);
+			ctlpoints[f][c][1] = -2*sin(t); 
+		}
+	}		*/
+
+
 	glutTimerFunc(10,animacion,1);
     glutPostRedisplay();
 	
@@ -300,15 +306,17 @@ int main (int argc, char** argv) {
 
 	glutReshapeFunc(changeViewport);
 	glutDisplayFunc(render);
-	glutKeyboardFunc (Keyboard);
-		
+	glutKeyboardFunc(Keyboard);
+	
+	glutTimerFunc(10,animacion,1);
+
+
 	GLenum err = glewInit();
 	if (GLEW_OK != err) {
 		fprintf(stderr, "GLEW error");
 		return 1;
 	}
 	
-
 	glutMainLoop();
 	return 0;
 
