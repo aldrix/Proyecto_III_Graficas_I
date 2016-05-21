@@ -16,11 +16,11 @@ GLUnurbsObj *theNurb;
 GLfloat ctlpoints[21][21][3] = {{{0}}};
 
 GLfloat knotsSurf[25] = {
-	0.0,1.0,2.0,3.0,4.0,
-	5.0,6.0,7.0,8.0,9.0,
-	10.0,11.0,12.0,13.0,14.0,
-	15.0,16.0,17.0,18.0,19.0,
-	20.0,21.0,22.0,23.0,24.0
+	0.0,0.0,0.0,0.0,1.0,
+	2.0,3.0,4.0,5.0,6.0,
+	7.0,8.0,9.10,11.0,12.0,
+	13.0,14.0,15.0,16.0,17.0,
+	18.0,19.0,19.0,19.0,19.0,
 };
 
 typedef struct{
@@ -29,11 +29,19 @@ typedef struct{
 }Vector2D;
 
 
-float L    = 0.0f;				//Distancia entre cada ola
-float A    = 0.0f;				//Altura de la ola
-float S	   = 0.0f;				//Velocidad de la ola
-Vector2D D = {0};				//Vector que determina la dirección de la ola
-float t = 0;
+// Valores para la ola 1
+float L1	= 0.0f;				//Distancia de la ola 1
+float A1	= 0.0f;				//Altura de la ola 1
+float S1	= 0.0f;				//Velocidad de la ola 1
+Vector2D D1	= {0};				//Vector que determina la dirección de la ola 1
+
+// Valores para la ola 2
+float L2    = 0.0f;				//Distancia de la ola 2
+float A2    = 0.0f;				//Altura de la ola 2
+float S2	   = 0.0f;			//Velocidad de la ola 2
+Vector2D D2 = {0};				//Vector que determina la dirección de la ola 2
+
+float t = 0.0f;
 
 
 void ejesCoordenada() {
@@ -94,16 +102,16 @@ void changeViewport(int w, int h) {
 
 void init_surface() {
 	int x = 10;
-	int y = 0;
-	int z = 10;
+	int y = 10;
+	int z = 0;
 
 	for (int f = 0; f < 21; f++) {
 		for (int c = 0; c < 21; c++) {
 			ctlpoints[f][c][0] = x - c;
-			ctlpoints[f][c][1] = y;
-			ctlpoints[f][c][2] = z; 
+			ctlpoints[f][c][1] = z;
+			ctlpoints[f][c][2] = y; 
 		}
-		z -= 1;
+		y -= 1;
 	}		
 }
 
@@ -133,35 +141,11 @@ void Keyboard(unsigned char key, int x, int y){
 		//glDisable(GLenum);
 	case 'p':
 		//glEnable(GLenum);
-	case 'a':
-		L = L - 0.1;
-	case 'z':
-		L = L + 0.1;
-	case 's':
-		A = A - 0.1;
-	case 'x':
-		A = A + 0.1;
-	case 'd':
-		S = S - 0.1;
-	case 'c':
-		S = S + 0.1;
-	case 'f':
-		D.x = D.x + 0.1;
-	case 'v':
-		D.x = D.x - 0.1;
-	case 'g':
-		D.y = D.y + 0.1;
-	case 'b':
-		D.y = D.y - 0.1;
-
 	case 27:             
 		exit (0);
-		break;
-	
+		break;	
   }
 }
-
-
 
 void render(){
 	glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -198,7 +182,7 @@ void render(){
 
 	
 	// Render Grid 
-	/*glDisable(GL_LIGHTING);
+/*	glDisable(GL_LIGHTING);
 	glLineWidth(1.0);
 	glPushMatrix();
 	glRotatef(90,1.0,0.0,0.0);
@@ -221,9 +205,9 @@ void render(){
     glEnd();
 	ejesCoordenada();
     glPopMatrix();
-	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHTING);*/
 	// Fin Grid
-*/	
+	
 
 
 	//Suaviza las lineas
@@ -247,19 +231,19 @@ void render(){
 	
 	/* Muestra los puntos de control */
 	
-	/*	int i,j;
+		int i,j;
 		glPointSize(5.0);
 		glDisable(GL_LIGHTING);
 		glColor3f(1.0, 1.0, 0.0);
 		glBegin(GL_POINTS);
-		for (i = 0; i <21; i++) {
+		for (i = 0; i < 21; i++) {
 			for (j = 0; j < 21; j++) {
 	            glVertex3f(ctlpoints[i][j][0], 	ctlpoints[i][j][1], ctlpoints[i][j][2]);
 			}
 		}
 		glEnd();
 		glEnable(GL_LIGHTING);
-	*/
+	
 		
 
 	glDisable(GL_BLEND);
@@ -270,7 +254,7 @@ void render(){
 
 void animacion(int value) {
 	t += 0.1;
-	for (int f = 0; f < 11; f++) {
+	for (int f = 0; f < 21; f++) {
 		for (int c = 0; c < 21; c++) {
 			ctlpoints[f][c][1] = -3*sin(t);
 			ctlpoints[f][c][1] = 3*sin(t);
@@ -308,7 +292,7 @@ int main (int argc, char** argv) {
 	glutDisplayFunc(render);
 	glutKeyboardFunc(Keyboard);
 	
-	glutTimerFunc(10,animacion,1);
+	//glutTimerFunc(10,animacion,1);
 
 
 	GLenum err = glewInit();
