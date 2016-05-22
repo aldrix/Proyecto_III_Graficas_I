@@ -237,7 +237,7 @@ void Keyboard(unsigned char key, int x, int y){
 
 void animacion(int value) {
 	if (!pausar){
-		t += 0.1;
+		t += 0.001;
 		w1 = (2 * pi) / L1;	//Onda 1
 		w2 = (2 * pi) / L2;	//Onda 2
 		signo1 = S1 * w1;	//Valor de signo extraño 1
@@ -258,8 +258,8 @@ void animacion(int value) {
 				ctlpoints[f][c][1] = A2 * sin(escalar2 + t * signo2);
 			}
 		}		
+		glutTimerFunc(200,animacion,1);	
 	}
-	glutTimerFunc(1000,animacion,1);
 	glutPostRedisplay();	
 }
 
@@ -358,7 +358,7 @@ void render(){
 
 	//Pausamos la animacion de las olas.
 	if (!pausar) {
-		glutTimerFunc(1000,animacion,1);
+		glutTimerFunc(200,animacion,1);
 	}
 
 	glutSwapBuffers();
