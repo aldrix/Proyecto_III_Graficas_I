@@ -24,38 +24,38 @@ GLfloat knotsSurf[25] = {
 
 typedef struct{
 	GLfloat x;
-	GLfloat y;
+	GLfloat z;
 }Vector2D;
 
-// Valores de entrada para la ola 1
-float L1	= 8.0f;				//Distancia de la ola 1
-float A1	= 0.4f;				//Altura de la ola 1
-float S1	= 2.0f;				//Velocidad de la ola 1
-Vector2D D1	= {0.0,-1.0};		//Vector que determina la dirección de la ola 1
+// Valores de entrada para la ola 1.
+float L1	= 8.0f;				//Longitud de la ola 1.
+float A1	= 0.3f;				//Altura de la ola 1.
+float S1	= 0.5f;				//Velocidad de la ola 1.
+Vector2D D1	= {0.0,-1.0};		//Vector que determina la dirección de la ola 1.
 
-//Variables para la ola 1
+//Variables para la ola 1.
 float w1;
-float signo1;
+float fi1;
 float escalar1;
 Vector2D normal1;
 
 // Valores de entrada para la ola 2
-float L2    = 4.0f;				//Distancia de la ola 2
-float A2    = 0.3f;				//Altura de la ola 2
-float S2	= 1.0f;				//Velocidad de la ola 2
-Vector2D D2 = {1.0,1.0};		//Vector que determina la dirección de la ola 2
+float L2    = 3.0f;				//Longitud de la ola 2.
+float A2    = 0.2f;				//Altura de la ola 2.
+float S2	= 1.0f;				//Velocidad de la ola 2.
+Vector2D D2 = {1.0,1.0};		//Vector que determina la dirección de la ola 2.
 
 //Variables para la ola 2
 float w2;
-float signo2;
+float fi2;
 float escalar2;
 Vector2D normal2;
 
 float t			 = 0.0f;
 float pi		 = 3.141592f;
 bool  pausar	 = true;
-bool activarOla1 = true;
-bool activarOla2 = true;
+bool activarOla1 = false;
+bool activarOla2 = false;
 
 void ejesCoordenada() {
 	glLineWidth(2.5);
@@ -147,81 +147,71 @@ void Keyboard(unsigned char key, int x, int y){
 			L1 -= 0.1;
 		} else if (activarOla2) {
 			L2 -= 0.1;
-		} else {
-			break;
-		}
+		} 
+		break;
 	case 122:	//122 en ASCII es: z.
 		if (activarOla1) {
 			L1 += 0.1;
 		} else if (activarOla2) {
 			L2 += 0.1;
-		} else {
-			break;
-		}
+		} 
+		break;
 	case 115:	//115 en ASCII es: s.
 		if (activarOla1) {
 			A1 -= 0.1;
 		} else if (activarOla2) {
 			A2 -= 0.1;
-		} else {
-			break;
-		}
+		} 
+		break;
 	case 120:	//120 en ASCII es: x.
 		if (activarOla1) {
 			A1 += 0.1;
 		} else if (activarOla2) {
 			A2 += 0.1;
-		} else {
-			break;
-		}
+		} 
+		break;
 	case 100:	//100 en ASCII es: d.
 		if (activarOla1) {
 			S1 -= 0.1;
 		} else if (activarOla2) {
 			S2 -= 0.1;
-		} else {
-			break;
-		}
+		} 
+		break;
 	case 99:	//99 en ASCII es: c.
 		if (activarOla1) {
 			S1 += 0.1;
 		} else if (activarOla2) {
 			S2 += 0.1;
-		} else {
-			break;
 		}
+		break;
 	case 102:	//102 en ASCII es: f.
 		if (activarOla1) {
 			D1.x -= 0.1;
 		} else if (activarOla2) {
 			D2.x -= 0.1;
-		} else {
-			break;
-		}
+		} 
+		break;
 	case 118:	//118 en ASCII es: v.
 		if (activarOla1) {
 			D1.x += 0.1;
 		} else if (activarOla2) {
 			D2.x += 0.1;
-		} else {
-			break;
 		}
+		break;
 	case 103:	//103 en ASCII es: g.
 		if (activarOla1) {
-			D1.y -= 0.1;
+			D1.z -= 0.1;
 		} else if (activarOla2) {
-			D2.y -= 0.1;
-		} else {
-			break;
-		}
+			D2.z -= 0.1;
+		} 
+		break;
 	case 98:	//98 en ASCII es: b.
 		if (activarOla1) {
-			D1.y += 0.1;
+			D1.z += 0.1;
 		} else if (activarOla2) {
-			D2.y += 0.1;
-		} else {
-			break;
+			D2.z += 0.1;
 		}
+		break;
 	case 114: //114 en ASCII es: r.
 		pausar = false;  
 		break;
@@ -237,28 +227,27 @@ void Keyboard(unsigned char key, int x, int y){
 
 void animacion(int value) {
 	if (!pausar){
-		t += 0.001;
+		t += 0.003;
 		w1 = (2 * pi) / L1;	//Onda 1
 		w2 = (2 * pi) / L2;	//Onda 2
-		signo1 = S1 * w1;	//Valor de signo extraño 1
-		signo2 = S2 * w2;	//Valor de signo extraño 2
-		normal1.x = (1 / (sqrt((D1.x)*(D1.x) + (D1.y)*(D1.y)))) * D1.x;	// Normalizar componente x del vector D1
-		normal1.y = (1 / (sqrt((D1.x)*(D1.x) + (D1.y)*(D1.y)))) * D1.y; // Normalizar componente y del vector D1
-		normal2.x = (1 / (sqrt((D2.x)*(D2.x) + (D2.y)*(D2.y)))) * D2.x; // Normalizar componente x del vector D2
-		normal2.y = (1 / (sqrt((D2.x)*(D2.x) + (D2.y)*(D2.y)))) * D2.y; // Normalizar componente y del vector D2
-		for (int f = 0; f < 10; f++) {
+		fi1 = S1 * w1;	    //Valor de fi 1
+		fi2 = S2 * w2;	    //Valor de fi 2
+		normal1.x = (1 / sqrt(pow(D1.x,2) + pow(D1.z,2))) * D1.x; // Normalizar componente x del vector D1
+		normal1.z = (1 / sqrt(pow(D1.x,2) + pow(D1.z,2))) * D1.z; // Normalizar componente y del vector D1
+		normal2.x = (1 / sqrt(pow(D2.x,2) + pow(D2.z,2))) * D2.x; // Normalizar componente x del vector D2
+		normal2.z = (1 / sqrt(pow(D2.x,2) + pow(D2.z,2))) * D2.z; // Normalizar componente y del vector D2
+
+		printf("Ola1 t:%f, w:%f, fi:%f s:%f, x:%f z:%f\n",t,w1,fi1,S1,D1.x,D1.z);
+		printf("Ola2 t:%f, w:%f, fi:%f s:%f, x:%f z:%f\n",t,w2,fi2,S2,D2.x,D2.z);
+		
+		for (int f = 0; f < 21; f++) {
 			for (int c = 0; c < 21; c++) {
-				escalar1	= (normal1.x * ctlpoints[f][c][0]) + (normal1.y * ctlpoints[f][c][2]); 
-				ctlpoints[f][c][1] = A1 * sin(escalar1 + t * signo1);
+				escalar1	= (normal1.x * ctlpoints[f][c][0]) + (normal1.z * ctlpoints[f][c][2]); 
+				escalar2	= (normal2.x * ctlpoints[f][c][0]) + (normal2.z * ctlpoints[f][c][2]); 
+				ctlpoints[f][c][1] = A1 * sin(escalar1 * w1 + t * fi1) + A2 * sin(escalar2 * w2 + t * fi2);
 			}
 		}		
-		for (int f = 11; f < 21; f++) {
-			for (int c = 0; c < 21; c++) {
-				escalar2	= (normal2.x * ctlpoints[f][c][0]) + (normal2.y * ctlpoints[f][c][2]); 
-				ctlpoints[f][c][1] = A2 * sin(escalar2 + t * signo2);
-			}
-		}		
-		glutTimerFunc(200,animacion,1);	
+		glutTimerFunc(100,animacion,1);	
 	}
 	glutPostRedisplay();	
 }
@@ -339,26 +328,24 @@ void render(){
 
 	/* Muestra los puntos de control */
 	
-	/*	int i,j;
-		glPointSize(5.0);
+	/*	glPointSize(5.0);
 		glDisable(GL_LIGHTING);
 		glColor3f(1.0, 1.0, 0.0);
 		glBegin(GL_POINTS);
-		for (i = 0; i < 21; i++) {
-			for (j = 0; j < 21; j++) {
+		for (int i = 0; i < 21; i++) {
+			for (int j = 0; j < 21; j++) {
 	            glVertex3f(ctlpoints[i][j][0], 	ctlpoints[i][j][1], ctlpoints[i][j][2]);
 			}
 		}
 		glEnd();
 		glEnable(GL_LIGHTING);
-	*/
-		
+	*/	
 	glDisable(GL_BLEND);
 	glDisable(GL_LINE_SMOOTH);
 
 	//Pausamos la animacion de las olas.
 	if (!pausar) {
-		glutTimerFunc(200,animacion,1);
+		glutTimerFunc(100,animacion,1);
 	}
 
 	glutSwapBuffers();
