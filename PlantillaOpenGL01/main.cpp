@@ -29,13 +29,8 @@ typedef struct{
 
 // Valores de entrada para la ola 1.
 float L1	= 8.0f;				//Longitud de la ola 1.
-<<<<<<< HEAD
-float A1	= 0.3f;				//Altura de la ola 1.
-float S1	= 0.5f;				//Velocidad de la ola 1.
-=======
 float A1	= 0.4f;				//Altura de la ola 1.
 float S1	= 2.0f;				//Velocidad de la ola 1.
->>>>>>> 26d4caac33262315d830d4b9197124c21566e2c3
 Vector2D D1	= {0.0,-1.0};		//Vector que determina la dirección de la ola 1.
 
 //Variables para la ola 1.
@@ -45,15 +40,9 @@ float escalar1;
 Vector2D normal1;
 
 // Valores de entrada para la ola 2
-<<<<<<< HEAD
-float L2    = 3.0f;				//Longitud de la ola 2.
-float A2    = 0.2f;				//Altura de la ola 2.
-float S2	= 1.0f;				//Velocidad de la ola 2.
-=======
 float L2    = 4.0f;				//Longitud de la ola 2.
 float A2    = 0.0f;				//Altura de la ola 2.
 float S2	= 0.0f;				//Velocidad de la ola 2.
->>>>>>> 26d4caac33262315d830d4b9197124c21566e2c3
 Vector2D D2 = {1.0,1.0};		//Vector que determina la dirección de la ola 2.
 
 //Variables para la ola 2
@@ -244,31 +233,18 @@ void animacion(int value) {
 		fi1 = S1 * w1;	    //Valor de fi 1
 		fi2 = S2 * w2;	    //Valor de fi 2
 		normal1.x = (1 / sqrt(pow(D1.x,2) + pow(D1.z,2))) * D1.x; // Normalizar componente x del vector D1
-		normal1.z = (1 / sqrt(pow(D1.x,2) + pow(D1.z,2))) * D1.z; // Normalizar componente y del vector D1
+		normal1.z = (1 / sqrt(pow(D1.x,2) + pow(D1.z,2))) * D1.z; // Normalizar componente z del vector D1
 		normal2.x = (1 / sqrt(pow(D2.x,2) + pow(D2.z,2))) * D2.x; // Normalizar componente x del vector D2
-		normal2.z = (1 / sqrt(pow(D2.x,2) + pow(D2.z,2))) * D2.z; // Normalizar componente y del vector D2
+		normal2.z = (1 / sqrt(pow(D2.x,2) + pow(D2.z,2))) * D2.z; // Normalizar componente z del vector D2
 
 		printf("Ola1 t:%f, w:%f, fi:%f s:%f, x:%f z:%f\n",t,w1,fi1,S1,D1.x,D1.z);
 		printf("Ola2 t:%f, w:%f, fi:%f s:%f, x:%f z:%f\n",t,w2,fi2,S2,D2.x,D2.z);
 		
-<<<<<<< HEAD
 		for (int f = 0; f < 21; f++) {
 			for (int c = 0; c < 21; c++) {
 				escalar1	= (normal1.x * ctlpoints[f][c][0]) + (normal1.z * ctlpoints[f][c][2]); 
 				escalar2	= (normal2.x * ctlpoints[f][c][0]) + (normal2.z * ctlpoints[f][c][2]); 
 				ctlpoints[f][c][1] = A1 * sin(escalar1 * w1 + t * fi1) + A2 * sin(escalar2 * w2 + t * fi2);
-=======
-		for (int f = 0; f < 10; f++) {
-			for (int c = 0; c < 21; c++) {
-				escalar1	= (normal1.x * ctlpoints[f][c][0]) + (normal1.z * ctlpoints[f][c][2]); 
-				ctlpoints[f][c][1] = A1 * sin(escalar1 * w1 + t * fi1);
-			}
-		}		
-		for (int f = 11; f < 21; f++) {
-			for (int c = 0; c < 21; c++) {
-				escalar2	= (normal2.x * ctlpoints[f][c][0]) + (normal2.z * ctlpoints[f][c][2]); 
-				ctlpoints[f][c][1] = A2 * sin(escalar2 * w2 + t * fi2);
->>>>>>> 26d4caac33262315d830d4b9197124c21566e2c3
 			}
 		}		
 		glutTimerFunc(100,animacion,1);	
@@ -352,11 +328,7 @@ void render(){
 
 	/* Muestra los puntos de control */
 	
-<<<<<<< HEAD
 	/*	glPointSize(5.0);
-=======
-		glPointSize(5.0);
->>>>>>> 26d4caac33262315d830d4b9197124c21566e2c3
 		glDisable(GL_LIGHTING);
 		glColor3f(1.0, 1.0, 0.0);
 		glBegin(GL_POINTS);
@@ -367,11 +339,7 @@ void render(){
 		}
 		glEnd();
 		glEnable(GL_LIGHTING);
-<<<<<<< HEAD
 	*/	
-=======
-		
->>>>>>> 26d4caac33262315d830d4b9197124c21566e2c3
 	glDisable(GL_BLEND);
 	glDisable(GL_LINE_SMOOTH);
 
