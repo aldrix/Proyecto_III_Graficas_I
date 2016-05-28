@@ -22,16 +22,11 @@ GLfloat knotsSurf[25] = {
 	18.0,19.0,19.0,19.0,19.0,
 };
 
+//Estructura para almacenar puntos (x,z).
 typedef struct{
 	GLfloat x;
 	GLfloat z;
 }Vector2D;
-
-// Valores de entrada para la ola 1.
-float L1	= 8.0f;				//Longitud de la ola 1.
-float A1	= 0.4f;				//Altura de la ola 1.
-float S1	= 2.0f;				//Velocidad de la ola 1.
-Vector2D D1	= {0.0,-1.0};		//Vector que determina la dirección de la ola 1.
 
 //Variables para la ola 1.
 float w1;
@@ -39,24 +34,32 @@ float fi1;
 float escalar1;
 Vector2D normal1;
 
-// Valores de entrada para la ola 2
-float L2    = 4.0f;				//Longitud de la ola 2.
-float A2    = 0.0f;				//Altura de la ola 2.
-float S2	= 0.0f;				//Velocidad de la ola 2.
-Vector2D D2 = {1.0,1.0};		//Vector que determina la dirección de la ola 2.
-
-//Variables para la ola 2
+//Variables para la ola 2.
 float w2;
 float fi2;
 float escalar2;
 Vector2D normal2;
 
+// Valores de entrada para la ola 1.
+float L1	= 8.0f;				//Longitud de la ola 1.
+float A1	= 0.4f;				//Altura de la ola 1.
+float S1	= 2.0f;				//Velocidad de la ola 1.
+Vector2D D1	= {0.0,-1.0};		//Vector que determina la dirección de la ola 1.
+
+// Valores de entrada para la ola 2.
+float L2    = 4.0f;				//Longitud de la ola 2.
+float A2    = 0.0f;				//Altura de la ola 2.
+float S2	= 0.0f;				//Velocidad de la ola 2.
+Vector2D D2 = {1.0,1.0};		//Vector que determina la dirección de la ola 2.
+
 float t			 = 0.0f;
 float pi		 = 3.141592f;
-bool  pausar	 = true;
+bool  pausar	 = true;       //Permite determinar si el simulador se pausa.
 bool activarOla1 = false;
 bool activarOla2 = false;
 
+
+/*----------------------------- EJES COORDENADAS ----------------------------*/
 void ejesCoordenada() {
 	glLineWidth(2.5);
 	glBegin(GL_LINES);
@@ -91,6 +94,8 @@ void ejesCoordenada() {
 	glLineWidth(1.0);
 }
 
+
+/*----------------------------- CHANGE VIEWPORT -----------------------------*/
 void changeViewport(int w, int h) {
 	float aspectratio;
 	if (h==0){
@@ -103,11 +108,13 @@ void changeViewport(int w, int h) {
 	glMatrixMode (GL_MODELVIEW);
 }
 
+/*----------------------------- INIT SURFACE --------------------------------*/
 void init_surface() {
 	int x = 10;
 	int y = 0;
 	int z = 10;
 
+	//Establecemos los puntos de control.
 	for (int f = 0; f < 21; f++) {
 		for (int c = 0; c < 21; c++) {
 			ctlpoints[f][c][0] = x - c;
@@ -118,97 +125,99 @@ void init_surface() {
 	}		
 }
 
-void init(){
-   glEnable(GL_LIGHTING);
-   glEnable(GL_LIGHT0);
-   glEnable(GL_DEPTH_TEST);
-   glEnable(GL_AUTO_NORMAL);
-   glEnable(GL_NORMALIZE);
 
-   init_surface();
+/*----------------------------- MOSTRAR VALORES ------------------------------*/
 
-   theNurb = gluNewNurbsRenderer();
-   gluNurbsProperty(theNurb, GLU_SAMPLING_TOLERANCE, 15.0);
-   gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
+void showValues() {
+	system("CLS");
+	printf("\tOla 1\n \twL = %f\n \taP = %f\n \tsP = %f\n \tdirX = %f\n \tdirY = %f\n",L1,A1,S1,D1.x,D1.z);
+	printf("\n\t===================\n\n");
+	printf("\tOla 2\n \twL = %f\n \taP = %f\n \tsP = %f\n \tdirX = %f\n \tdirY = %f\n",L2,A2,S2,D2.x,D2.z);
 }
 
+
+/*-------------------------------- KEYBOARD --------------------------------*/
 void Keyboard(unsigned char key, int x, int y){
   switch (key){
 	case '1':
-		activarOla1 = true;
-		activarOla2 = false;
+		if (!pausar) {
+			activarOla1 = true;
+			activarOla2 = false;
+		}
 		break;
 	case '2':
-		activarOla1 = false;
-		activarOla2 = true;
+		if (!pausar) {
+			activarOla1 = false;
+			activarOla2 = true;
+		}
 		break;
 	case 97:	//97 en ASCII es: a.
-		if (activarOla1) {
+		if (activarOla1 && !pausar) {
 			L1 -= 0.1;
-		} else if (activarOla2) {
+		} else if (activarOla2 && !pausar) {
 			L2 -= 0.1;
 		} 
 		break;
 	case 122:	//122 en ASCII es: z.
-		if (activarOla1) {
+		if (activarOla1 && !pausar) {
 			L1 += 0.1;
-		} else if (activarOla2) {
+		} else if (activarOla2 && !pausar) {
 			L2 += 0.1;
 		} 
 		break;
 	case 115:	//115 en ASCII es: s.
-		if (activarOla1) {
+		if (activarOla1 && !pausar) {
 			A1 -= 0.1;
-		} else if (activarOla2) {
+		} else if (activarOla2 && !pausar) {
 			A2 -= 0.1;
 		} 
 		break;
 	case 120:	//120 en ASCII es: x.
-		if (activarOla1) {
+		if (activarOla1 && !pausar) {
 			A1 += 0.1;
-		} else if (activarOla2) {
+		} else if (activarOla2 && !pausar) {
 			A2 += 0.1;
 		} 
 		break;
 	case 100:	//100 en ASCII es: d.
-		if (activarOla1) {
+		if (activarOla1 && !pausar) {
 			S1 -= 0.1;
-		} else if (activarOla2) {
+		} else if (activarOla2 && !pausar) {
 			S2 -= 0.1;
 		} 
 		break;
 	case 99:	//99 en ASCII es: c.
-		if (activarOla1) {
+		if (activarOla1 && !pausar) {
 			S1 += 0.1;
-		} else if (activarOla2) {
+		} else if (activarOla2 && !pausar) {
 			S2 += 0.1;
 		}
 		break;
 	case 102:	//102 en ASCII es: f.
-		if (activarOla1) {
+		if (activarOla1 && !pausar) {
 			D1.x -= 0.1;
-		} else if (activarOla2) {
+		} else if (activarOla2 && !pausar) {
 			D2.x -= 0.1;
 		} 
 		break;
 	case 118:	//118 en ASCII es: v.
-		if (activarOla1) {
+		if (activarOla1 && !pausar) {
 			D1.x += 0.1;
-		} else if (activarOla2) {
+		} else if (activarOla2 && !pausar) {
 			D2.x += 0.1;
 		}
 		break;
 	case 103:	//103 en ASCII es: g.
-		if (activarOla1) {
+		if (activarOla1 && !pausar) {
 			D1.z -= 0.1;
-		} else if (activarOla2) {
+		} else if (activarOla2 && !pausar) {
 			D2.z -= 0.1;
 		} 
 		break;
 	case 98:	//98 en ASCII es: b.
-		if (activarOla1) {
+		if (activarOla1 && !pausar) {
 			D1.z += 0.1;
-		} else if (activarOla2) {
+		} else if (activarOla2 && !pausar) {
 			D2.z += 0.1;
 		}
 		break;
@@ -220,34 +229,37 @@ void Keyboard(unsigned char key, int x, int y){
 		break;
 	case 27:  //27 en ASCII es: ESC.        
 		exit (0);
-		break;	
+		break;
   }
+  showValues();
   glutPostRedisplay();
 }
 
+
+/*-------------------------------- ANIMACION -------------------------------*/
 void animacion(int value) {
 	if (!pausar){
-		t += 0.003;
+
 		w1 = (2 * pi) / L1;	//Onda 1
 		w2 = (2 * pi) / L2;	//Onda 2
 		fi1 = S1 * w1;	    //Valor de fi 1
 		fi2 = S2 * w2;	    //Valor de fi 2
+
 		normal1.x = (1 / sqrt(pow(D1.x,2) + pow(D1.z,2))) * D1.x; // Normalizar componente x del vector D1
 		normal1.z = (1 / sqrt(pow(D1.x,2) + pow(D1.z,2))) * D1.z; // Normalizar componente z del vector D1
 		normal2.x = (1 / sqrt(pow(D2.x,2) + pow(D2.z,2))) * D2.x; // Normalizar componente x del vector D2
 		normal2.z = (1 / sqrt(pow(D2.x,2) + pow(D2.z,2))) * D2.z; // Normalizar componente z del vector D2
-
-		printf("Ola1 t:%f, w:%f, fi:%f s:%f, x:%f z:%f\n",t,w1,fi1,S1,D1.x,D1.z);
-		printf("Ola2 t:%f, w:%f, fi:%f s:%f, x:%f z:%f\n",t,w2,fi2,S2,D2.x,D2.z);
 		
+		//Aplicamos la formula de las olas.
 		for (int f = 0; f < 21; f++) {
 			for (int c = 0; c < 21; c++) {
 				escalar1	= (normal1.x * ctlpoints[f][c][0]) + (normal1.z * ctlpoints[f][c][2]); 
 				escalar2	= (normal2.x * ctlpoints[f][c][0]) + (normal2.z * ctlpoints[f][c][2]); 
 				ctlpoints[f][c][1] = A1 * sin(escalar1 * w1 + t * fi1) + A2 * sin(escalar2 * w2 + t * fi2);
 			}
-		}		
-		glutTimerFunc(100,animacion,1);	
+		}
+		t += 0.001;
+		glutTimerFunc(150,animacion,1);	
 	}
 	glutPostRedisplay();	
 }
@@ -350,6 +362,25 @@ void render(){
 
 	glutSwapBuffers();
 }
+
+
+/*------------------------------- INIT --------------------------------------*/
+void init(){
+   glEnable(GL_LIGHTING);
+   glEnable(GL_LIGHT0);
+   glEnable(GL_DEPTH_TEST);
+   glEnable(GL_AUTO_NORMAL);
+   glEnable(GL_NORMALIZE);
+
+   init_surface();
+
+   theNurb = gluNewNurbsRenderer();
+   gluNurbsProperty(theNurb, GLU_SAMPLING_TOLERANCE, 15.0);
+   gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
+
+   showValues();
+}
+
 
 int main (int argc, char** argv) {
 
