@@ -130,7 +130,7 @@ void init_surface() {
 
 void showValues() {
 	system("CLS");
-	printf("\tOla 1\n \twL = %f\n \taP = %f\n \tsP = %f\n \tdirX = %f\n \tdirY = %f\n",L1,A1,S1,D1.x,D1.z);
+	printf("\n\tOla 1\n \twL = %f\n \taP = %f\n \tsP = %f\n \tdirX = %f\n \tdirY = %f\n",L1,A1,S1,D1.x,D1.z);
 	printf("\n\t===================\n\n");
 	printf("\tOla 2\n \twL = %f\n \taP = %f\n \tsP = %f\n \tdirX = %f\n \tdirY = %f\n",L2,A2,S2,D2.x,D2.z);
 }
@@ -151,80 +151,92 @@ void Keyboard(unsigned char key, int x, int y){
 			activarOla2 = true;
 		}
 		break;
-	case 97:	//97 en ASCII es: a.
+	case 'a':
+	case 'A':
 		if (activarOla1 && !pausar) {
 			L1 -= 0.1;
 		} else if (activarOla2 && !pausar) {
 			L2 -= 0.1;
 		} 
 		break;
-	case 122:	//122 en ASCII es: z.
+	case 'z':	
+	case 'Z':
 		if (activarOla1 && !pausar) {
 			L1 += 0.1;
 		} else if (activarOla2 && !pausar) {
 			L2 += 0.1;
 		} 
 		break;
-	case 115:	//115 en ASCII es: s.
+	case 's':	
+	case 'S':
 		if (activarOla1 && !pausar) {
 			A1 -= 0.1;
 		} else if (activarOla2 && !pausar) {
 			A2 -= 0.1;
 		} 
 		break;
-	case 120:	//120 en ASCII es: x.
+	case 'x':
+	case 'X':
 		if (activarOla1 && !pausar) {
 			A1 += 0.1;
 		} else if (activarOla2 && !pausar) {
 			A2 += 0.1;
 		} 
 		break;
-	case 100:	//100 en ASCII es: d.
+	case 'd':	
+	case 'D':
 		if (activarOla1 && !pausar) {
 			S1 -= 0.1;
 		} else if (activarOla2 && !pausar) {
 			S2 -= 0.1;
 		} 
 		break;
-	case 99:	//99 en ASCII es: c.
+	case 'c':
+	case 'C':
 		if (activarOla1 && !pausar) {
 			S1 += 0.1;
 		} else if (activarOla2 && !pausar) {
 			S2 += 0.1;
 		}
 		break;
-	case 102:	//102 en ASCII es: f.
+	case 'f':
+	case 'F':
 		if (activarOla1 && !pausar) {
 			D1.x -= 0.1;
 		} else if (activarOla2 && !pausar) {
 			D2.x -= 0.1;
 		} 
 		break;
-	case 118:	//118 en ASCII es: v.
+	case 'v':	
+	case 'V':
 		if (activarOla1 && !pausar) {
 			D1.x += 0.1;
 		} else if (activarOla2 && !pausar) {
 			D2.x += 0.1;
 		}
 		break;
-	case 103:	//103 en ASCII es: g.
+	case 'g':
+	case 'G':
 		if (activarOla1 && !pausar) {
 			D1.z -= 0.1;
 		} else if (activarOla2 && !pausar) {
 			D2.z -= 0.1;
 		} 
 		break;
-	case 98:	//98 en ASCII es: b.
+	case 'b':
+	case 'B':
 		if (activarOla1 && !pausar) {
 			D1.z += 0.1;
 		} else if (activarOla2 && !pausar) {
 			D2.z += 0.1;
 		}
 		break;
-	case 114: //114 en ASCII es: r.
+	case 'r': 
+	case 'R':
 		pausar = false;  
 		break;
-	case 112: //112 en ASCII es: p.
+	case 'p':
+	case 'P':
 		pausar = true;
 		break;
 	case 27:  //27 en ASCII es: ESC.        
@@ -258,8 +270,7 @@ void animacion(int value) {
 				ctlpoints[f][c][1] = A1 * sin(escalar1 * w1 + t * fi1) + A2 * sin(escalar2 * w2 + t * fi2);
 			}
 		}
-		t += 0.001;
-		glutTimerFunc(150,animacion,1);	
+		t += 0.2;	
 	}
 	glutPostRedisplay();	
 }
@@ -357,7 +368,7 @@ void render(){
 
 	//Pausamos la animacion de las olas.
 	if (!pausar) {
-		glutTimerFunc(100,animacion,1);
+		glutTimerFunc(1,animacion,1);
 	}
 
 	glutSwapBuffers();
